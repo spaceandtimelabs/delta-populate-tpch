@@ -1,22 +1,22 @@
 -- https://ignite.apache.org/docs/latest/sql-reference/data-types
 create table if not exists LINEITEM
 (
-    L_ORDERKEY      INTEGER,
-    L_PARTKEY       INTEGER,
-    L_SUPPKEY       INTEGER,
-    L_LINENUMBER    INTEGER,
-    L_QUANTITY      DOUBLE,
-    L_EXTENDEDPRICE DOUBLE,
-    L_DISCOUNT      DOUBLE,
-    L_TAX           DOUBLE,
-    L_RETURNFLAG    STRING,
-    L_LINESTATUS    STRING,
-    L_SHIPDATE      DATE,
-    L_COMMITDATE    DATE,
-    L_RECEIPTDATE   DATE,
-    L_SHIPINSTRUCT  STRING,
-    L_SHIPMODE      STRING,
-    L_COMMENT       STRING
+    l_orderkey      INTEGER,
+    l_partkey       INTEGER,
+    l_suppkey       INTEGER,
+    l_linenumber    INTEGER,
+    l_quantity      DOUBLE,
+    l_extendedprice DOUBLE,
+    l_discount      DOUBLE,
+    l_tax           DOUBLE,
+    l_returnflag    STRING,
+    l_linestatus    STRING,
+    l_shipdate      DATE,
+    l_commitdate    DATE,
+    l_receiptdate   DATE,
+    l_shipinstruct  STRING,
+    l_shipmode      STRING,
+    l_comment       STRING
 ) using delta;
 
 create table if not exists partsupp (
