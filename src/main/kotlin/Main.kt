@@ -9,12 +9,29 @@ fun main() {
         .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
         .getOrCreate()
 
-    sparkSession.sql("CREATE TABLE customer(c_id Long, c_name String, c_city String) USING DELTA")
-    sparkSession.sql("CREATE TABLE newCustomer(c_id Long, c_name String, c_city String) USING DELTA")
+    sparkSession.sql("""
+        CREATE TEMPORARY VIEW region_csv
+        USING csv 
+        OPTIONS (
+          path 'data/region.tbl',
+          delimiter '|',
+          header false,
+          inferSchema true
+        );
+    """.trimIndent())
 
-    sparkSession.sql("INSERT INTO  customer VALUES(1, 'John', 'New York'), (2, 'Shawn', 'California')")
-    sparkSession.sql("INSERT INTO newCustomer VALUES(2, 'Shawn', 'Texas'), (3, 'Redish', 'California')")
+    sparkSession.sql("""
+        create table if not exists region (
+            r_regionkey INTEGER,
+            r_name STRING,
+            r_comment STRING
+        ) USING DELTA;
+    """.trimIndent())
 
-    sparkSession.sql("SELECT * FROM customer").show()
-    sparkSession.sql("SELECT * FROM newCustomer").show()
+    sparkSession.sql("""
+        INSERT INTO region
+        SELECT _c0, _c1, _c2 FROM region_csv
+    """.trimIndent())
+
+    sparkSession.sql("SELECT * FROM region").show()
 }
